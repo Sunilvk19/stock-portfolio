@@ -43,9 +43,10 @@ const RegisterPage = () => {
         lastName: formData.lastName,
         email: formData.email,
         password: formData.password,
+        confirmPassword: formData.confirmPassword,
       });
-
-      navigate("/");
+      console.log("Registration successfull!");
+      navigate("/login");
     } catch (err) {
       setError(err?.message || "Registration failed");
     } finally {
@@ -126,7 +127,7 @@ const RegisterPage = () => {
 
         <p className="text-center text-sm mt-5">
           Already have an account?{" "}
-          <Link to="/" className="text-blue-600 font-medium">
+          <Link to="/login" className="text-blue-600 font-medium">
             Login
           </Link>
         </p>

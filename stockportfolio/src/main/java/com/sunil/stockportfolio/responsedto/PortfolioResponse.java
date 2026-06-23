@@ -1,4 +1,4 @@
-package com.sunil.stockportfolio.requestdto;
+package com.sunil.stockportfolio.responsedto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PortfolioRequest {
+public class PortfolioResponse {
     private Integer id;
     private BigDecimal totalInvestment;
     private BigDecimal currentValue;

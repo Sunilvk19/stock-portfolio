@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import authService from "../service/authservice";
 
-const LoginPage = () => {
+const Login = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -30,7 +30,6 @@ const LoginPage = () => {
 
     try {
       await authService.login(formData.email, formData.password);
-
       navigate("/dashboard");
     } catch (err) {
       setError(err?.message || "Invalid email or password");
@@ -95,4 +94,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Login;
