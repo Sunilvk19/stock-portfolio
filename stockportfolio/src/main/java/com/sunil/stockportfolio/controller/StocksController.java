@@ -9,17 +9,20 @@ import com.sunil.stockportfolio.utility.RestResponseBuilder;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/stocks")
 public class StocksController {
     private final StocksService stocksService;
     private final RestResponseBuilder restResponseBuilder;
 
-    @PostMapping("/stocks")
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseStructure<StockResponse>> createStock(@RequestBody StockRequest stockRequest, Stocks stock){
         StockResponse stockResponse = stocksService.createStock(stockRequest, stock);
         return restResponseBuilder.success(HttpStatus.CREATED,"Stock Created",stockResponse);
@@ -35,12 +38,13 @@ public class StocksController {
         List<StockResponse> stockResponse = stocksService.getAllStocks();
         return restResponseBuilder.success(HttpStatus.FOUND,"Stock Found", stockResponse);
     }
-    @GetMapping
-    public ResponseEntity<ResponseStructure<StockResponse>> findStockBySymbol(@PathVariable String symbol){
+    @GetMapping("/search/{symbol}")
+    public ResponseEntity<ResponseStructure<StockResponse>> findStockBySymbol(@RequestParam String symbol){
         StockResponse stockResponse = stocksService.getStockBySymbol(symbol);
         return restResponseBuilder.success(HttpStatus.FOUND, "Stock Found", stockResponse);
     }
-
+    @PutMapping("/disable/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseStructure<StockResponse>> disableStock(@PathVariable Integer id){
         StockResponse stockResponse = stocksService.disableStock(id);
         return restResponseBuilder.success(HttpStatus.LOCKED, "Stock disabled", stockResponse);

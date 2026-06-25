@@ -6,13 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+
 @Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class StockRequest {
-    private String symbol;
-    private String companyName;
-    private BigDecimal currentPrice;
-    private BigDecimal previousPrice;
+@NoArgsConstructor
+@Builder
+public class HoldingRequest {
+    private Integer stockId;
+    private Integer portfolioId;
+    private Integer quantity;
 }

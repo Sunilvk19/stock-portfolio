@@ -28,26 +28,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         String token = authHeader.substring(7);
-
         try {
-
             if (jwtService.validateToken(token)) {
-
                 String email = jwtService.extractEmail(token);
-
                 UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
-
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-
         } catch (Exception e) {
-
             SecurityContextHolder.clearContext();
-
         }
         filterChain.doFilter(request, response);
     }
