@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -51,7 +52,7 @@ public class HoldingServiceImpl implements HoldingService {
 
     @Override
     public List<HoldingResponse> getHoldingByPortfolioAndStocks(Integer portfolioId, Integer stockId) {
-        List<Holding> holdingsList = holdingRepository.findByPortfolioAndStock(portfolioId,stockId);
+        Optional<Holding> holdingsList = holdingRepository.findByPortfolioIdAndStockId(portfolioId,stockId);
         if(holdingsList.isEmpty()){
             return Collections.emptyList();
         }

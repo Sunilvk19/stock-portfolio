@@ -7,6 +7,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class SellRequest {
-    
+public class SellStockRequest {
+    private Integer portfolioId;
+    private Integer stockId;
+    private Integer quantity;
 }

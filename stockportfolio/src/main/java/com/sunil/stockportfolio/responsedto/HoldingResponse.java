@@ -18,5 +18,5 @@ public class HoldingResponse {
     private Integer quantity;
     private String stockSymbol;
     private String companyName;
-    private Integer averagePrice;
+    private BigDecimal averagePrice;
 }

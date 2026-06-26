@@ -22,5 +22,5 @@ public class Holding {
     @ManyToOne
     private Stocks stock;
     private Integer quantity;
-    private Integer averagePrice;
+    private BigDecimal averagePrice;
 }
