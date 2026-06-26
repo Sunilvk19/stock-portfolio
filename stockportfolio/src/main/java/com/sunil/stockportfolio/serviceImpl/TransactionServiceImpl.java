@@ -53,6 +53,9 @@ public class TransactionServiceImpl implements TransactionService {
                 .orElseThrow(()-> new PortfolioNotFoundException("Portfolio Not Found"));
         Stocks stock = stockRepository.findById(buyStockRequest.getStockId())
                 .orElseThrow(()-> new StocksNotFoundException("Stock Not Found"));
+        System.out.println("Portfolio Id from request = " + buyStockRequest.getPortfolioId());
+
+        System.out.println("All portfolios = " + portfolioRepository.findAll());
         if (!stock.isActive()){
             throw new StocksNotFoundException("Stock is Not Active");
         }

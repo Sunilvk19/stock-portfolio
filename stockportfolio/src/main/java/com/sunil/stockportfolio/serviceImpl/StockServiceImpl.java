@@ -32,13 +32,13 @@ public class StockServiceImpl implements StocksService {
                 .companyName(stock.getCompanyName())
                 .currentPrice(stock.getCurrentPrice())
                 .previousPrice(stock.getPreviousPrice())
-                .value(stock.getValue())
                 .isActive(stock.isActive())
                 .build();
     }
     @Override
     public StockResponse createStock(StockRequest stockRequest, Stocks stock) {
         stock = mapToStocks(stockRequest, stock);
+        stock.setActive(true);
         Stocks saveStock = stockRepository.save(stock);
         return mapToStockResponse(saveStock);
     }

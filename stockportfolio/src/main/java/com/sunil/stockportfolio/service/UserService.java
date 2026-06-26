@@ -12,4 +12,6 @@ public interface UserService {
     UserResponse register(RegisterRequest request);
 
     LoginResponse login(LoginRequest request);
+
+    LoginResponse adminLogin(LoginRequest request);
 }

@@ -17,6 +17,5 @@ public class StockResponse {
     private String companyName;
     private BigDecimal currentPrice;
     private BigDecimal previousPrice;
-    private BigDecimal value;
     private boolean isActive;
 }

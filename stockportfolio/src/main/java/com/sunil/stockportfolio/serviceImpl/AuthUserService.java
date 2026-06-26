@@ -12,6 +12,7 @@ import com.sunil.stockportfolio.responsedto.UserResponse;
 import com.sunil.stockportfolio.security.JwtService;
 import com.sunil.stockportfolio.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,10 @@ public class AuthUserService implements UserService {
     private final AuthUserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+
+    private String normalizeEmail(String email) {
+        return email.trim().toLowerCase();
+    }
 
     private UserResponse mapToResponse(User user){
         return UserResponse.builder()
@@ -38,7 +43,7 @@ public class AuthUserService implements UserService {
     private User mapToUser(RegisterRequest request, User user){
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        user.setEmail(request.getEmail());
+        user.setEmail(normalizeEmail(request.getEmail()));
         return user;
     }
 
@@ -55,7 +60,7 @@ public class AuthUserService implements UserService {
         if (!request.getPassword().equals(request.getConfirmPassword())){
             throw new PasswordMissMatchException("Passwords don't match");
         }
-        if (repository.findByEmail(request.getEmail().trim().toLowerCase()).isPresent()){
+        if (repository.findByEmail(normalizeEmail(request.getEmail())).isPresent()){
             throw new EmailAlreadyExistsException("Email already exists");
         }
         User user = new User();
@@ -68,7 +73,7 @@ public class AuthUserService implements UserService {
 
     @Override
     public LoginResponse login(LoginRequest request) {
-        User user = repository.findByEmail(request.getEmail())
+        User user = repository.findByEmail(normalizeEmail(request.getEmail()))
                 .orElseThrow(()-> new UsernameNotFoundException("Invalid credentials"));
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())){
             throw new PasswordMissMatchException("Password don't match");
@@ -76,5 +81,20 @@ public class AuthUserService implements UserService {
         String token = jwtService.generateJwtToken(user.getEmail());
         return mapToLoginResponse(token, user);
     }
+
+    @Override
+    public LoginResponse adminLogin(LoginRequest request) {
+        User user = repository.findByEmail(normalizeEmail(request.getEmail()))
+                .orElseThrow(()-> new UsernameNotFoundException("Invalid credentials"));
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())){
+            throw  new PasswordMissMatchException("Password don't match");
+        }
+        if (user.getRole() != Role.ADMIN) {
+            throw new AccessDeniedException("Only admin users can login here");
+        }
+        String token = jwtService.generateJwtToken(user.getEmail());
+        return mapToLoginResponse(token, user);
+    }
+
 
 }

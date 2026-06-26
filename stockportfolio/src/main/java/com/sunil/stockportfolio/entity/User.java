@@ -3,10 +3,7 @@ package com.sunil.stockportfolio.entity;
 
 import com.sunil.stockportfolio.enums.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -44,5 +41,10 @@ public class User {
     private LocalDateTime updatedAt;
 
     @OneToOne(mappedBy = "user")
+    @ToString.Exclude
     private Portfolio portfolio;
+
+    @OneToOne(mappedBy = "user")
+    @ToString.Exclude
+    private Accounts accounts;
 }

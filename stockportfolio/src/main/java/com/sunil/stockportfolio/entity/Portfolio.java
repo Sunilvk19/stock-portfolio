@@ -1,10 +1,7 @@
 package com.sunil.stockportfolio.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -22,5 +19,6 @@ public class Portfolio {
     private BigDecimal profitLoss;
     @OneToOne
     @JoinColumn(name = "userId")
+    @ToString.Exclude
     private User user;
 }

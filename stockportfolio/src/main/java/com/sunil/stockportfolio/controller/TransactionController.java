@@ -10,10 +10,7 @@ import com.sunil.stockportfolio.utility.RestResponseBuilder;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,7 +30,7 @@ public class TransactionController {
         TransactionResponse transactionResponse = transactionService.sellStock(sellStockRequest);
         return restResponseBuilder.success(HttpStatus.CREATED, "Successfully sell stock", transactionResponse);
     }
-    @PostMapping("/history")
+    @GetMapping("/history")
     public ResponseEntity<ResponseStructure<List<TransactionResponse>>> transactionHistory(@RequestBody TransactionRequest request){
         List<TransactionResponse> responseList = transactionService.transactionHistory(request);
         return restResponseBuilder.success(HttpStatus.OK,"Transaction History",responseList);

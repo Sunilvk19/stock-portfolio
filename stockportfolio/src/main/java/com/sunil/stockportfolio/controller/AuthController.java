@@ -32,6 +32,11 @@ public class AuthController {
         LoginResponse loginResponse = userService.login(request);
         return responseBuilder.success(HttpStatus.OK,"User is login successfully", loginResponse);
     }
+    @PostMapping("/admin/login")
+    public ResponseEntity<ResponseStructure<LoginResponse>> adminLogin(@RequestBody LoginRequest request){
+        LoginResponse response= userService.adminLogin(request);
+        return responseBuilder.success(HttpStatus.OK,"User login as admin successfully", response);
+    }
 
 //    @GetMapping("/get")
 //    public ResponseEntity<String> get(){
