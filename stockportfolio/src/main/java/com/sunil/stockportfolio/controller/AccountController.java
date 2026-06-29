@@ -1,7 +1,8 @@
 package com.sunil.stockportfolio.controller;
 
 
-import com.sunil.stockportfolio.entity.User;
+
+import com.sunil.stockportfolio.requestdto.AddFoundsRequest;
 import com.sunil.stockportfolio.responsedto.AccountResponse;
 import com.sunil.stockportfolio.service.AccountService;
 import com.sunil.stockportfolio.utility.ResponseStructure;
@@ -30,4 +31,9 @@ public class AccountController {
         return responseBuilder.success(HttpStatus.FOUND,"Account found successfully", accountResponse);
     }
 
+    @PostMapping("/{userId}/funds")
+    public ResponseEntity<ResponseStructure<AccountResponse>> addFounds(@PathVariable Integer userId, @RequestBody AddFoundsRequest request){
+        AccountResponse accountResponse = accountService.addFounds(userId, request);
+        return responseBuilder.success(HttpStatus.ACCEPTED,"Successfully added found account", accountResponse);
+    }
 }

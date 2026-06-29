@@ -5,6 +5,7 @@ import com.sunil.stockportfolio.entity.User;
 import com.sunil.stockportfolio.exceptionhandle.AccountNotFoundException;
 import com.sunil.stockportfolio.repository.AccountRepository;
 import com.sunil.stockportfolio.repository.AuthUserRepository;
+import com.sunil.stockportfolio.requestdto.AddFoundsRequest;
 import com.sunil.stockportfolio.responsedto.AccountResponse;
 import com.sunil.stockportfolio.service.AccountService;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
@@ -51,5 +51,17 @@ public class AccountServiceImpl implements AccountService {
         Accounts accounts = accountRepository.findById(userId)
                 .orElseThrow(()-> new UsernameNotFoundException("User not found"));
         return mapToAccountResponse(accounts);
+    }
+
+    @Override
+    public AccountResponse addFounds(Integer userId, AddFoundsRequest request) {
+        if(request.getAmount() == null || request.getAmount().compareTo(BigDecimal.ZERO) <= 0){
+            throw new IllegalArgumentException("Amount must be greater than zero");
+        }
+        Accounts accounts = accountRepository.findById(userId)
+                .orElseThrow(()-> new UsernameNotFoundException("User not found"));
+        accounts.setBalance(accounts.getBalance().add(request.getAmount()));
+        Accounts updateAccounts = accountRepository.save(accounts);
+        return mapToAccountResponse(updateAccounts);
     }
 }
