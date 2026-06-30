@@ -8,10 +8,7 @@ import com.sunil.stockportfolio.utility.RestResponseBuilder;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,7 +28,7 @@ public class HoldingController {
         List<HoldingResponse> holdingResponseList = holdingService.getHoldingByPortfolioAndStocks(portfolioId, stockId);
         return restResponseBuilder.success(HttpStatus.FOUND, "Found Portfolio And Stocks", holdingResponseList);
     }
-
+    @PostMapping("/holding")
     public ResponseEntity<ResponseStructure<HoldingResponse>> saveHolding(@RequestBody HoldingRequest holdingRequest){
         HoldingResponse holdingResponse = holdingService.saveHolding(holdingRequest);
         return  restResponseBuilder.success(HttpStatus.CREATED, "Holding Is Saved", holdingResponse);
