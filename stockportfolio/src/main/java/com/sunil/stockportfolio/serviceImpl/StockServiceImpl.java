@@ -32,7 +32,10 @@ public class StockServiceImpl implements StocksService {
                 .companyName(stock.getCompanyName())
                 .currentPrice(stock.getCurrentPrice())
                 .previousPrice(stock.getPreviousPrice())
+                .volume(stock.getVolume())
                 .isActive(stock.isActive())
+                .createdAt(stock.getCreatedAt())
+                .updatedAt(stock.getUpdatedAt())
                 .build();
     }
     @Override

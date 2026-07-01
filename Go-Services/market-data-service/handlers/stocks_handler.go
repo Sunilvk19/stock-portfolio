@@ -20,7 +20,7 @@ func GetStockHandler(c *gin.Context) {
 	c.JSON(http.StatusFound, gin.H{
 		"Message":"Found",
 		"Data":stocks,
-	})
+	})	
 }
 
 func GetStockBySymbol(c *gin.Context) {
@@ -39,17 +39,19 @@ func GetStockBySymbol(c *gin.Context) {
 	})
 }
 
-func GetAllStocksHandler(c *gin.Context){
-	var stocks []models.Stock
-	err := config.DB.Where("is_active = ?",true).Find(&stocks).Error
-	if err != nil{
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"Error" : "Failed to fetch all stocks",
+func GetCurrentPrice(c *gin.Context) {
+	var stock []models.Stock
+	symbol := c.Param("symbol")
+	err := config.DB.Where("symbol = ?", symbol).Select("symbol","current_price").Find(&stock).Error
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Error" : "Failed to fetch price",
 		})
 		return
 	}
 	c.JSON(http.StatusFound, gin.H{
-		"Message":"Found",
-		"Data":stocks,
+		"Message" : "Found",
+		"Data" : stock,
 	})
 }
+
